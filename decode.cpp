@@ -65,6 +65,7 @@ public:
 	}
 
 	int HeadRead(ifstream& file) {
+		cout << "HEAD READ" << endl;
 		unsigned long long len = 0;					//длина общего текста, не считая (собаки) головы
 		int key, q;
 		char s;
@@ -72,11 +73,14 @@ public:
 		file.read((char*)&q, sizeof(q));
 		for (int i = 0; i < q; i++) {
 			file.read((char*)&s, sizeof(s));		//считываем символ
+			cout << s << ": ";
 			file.read((char*)&key, sizeof(key));	//считываем его значение
+			cout << key << endl;
 			Jija[s] = key;							//помещаем ключ в мапу
 			len += key;
 		}
-
+		cout << "Len: " << len << endl;
+		cout << "HEAD READ END" << endl;
 		return len;
 	}
 
@@ -130,6 +134,41 @@ void CreateTable(Uzel* T){
 	if (!bincode.empty()) bincode.pop_back();
 }
 
+
+
+///////////////////////////////////////
+void PrintVector(vector<bool>code) {
+	for (auto it = code.begin(); it != code.end(); it++) {
+		cout << *it;
+	}
+	cout << endl;
+}
+
+void PrintTable() {
+	for (auto it = table.begin(); it != table.end(); it++)
+	{
+		cout << it->first << " - ";
+		PrintVector(it->second);
+	}
+}
+
+
+void PrintFile(const char* PATH) {
+	ifstream fin(PATH);
+	char s;
+	while (fin >> s) {
+		for (int i = 0; i < 8; i++) {
+			int b = (s & (1 << (7 - i))) >> (7 - i);
+			cout << b;
+		}
+	}
+	fin.close();
+}
+///////////////////////////////////////
+
+
+
+
 int main() {
 	ifstream fin("encode.txt", ios::binary);
 	if (!fin.is_open()){ 
@@ -151,24 +190,26 @@ int main() {
 
 	Uzel* tmp = pudgers;				//копируем пуджерса во временную переменную
 	CreateTable(pudgers);
-	int count = 0;
-	char с = fin.get();
-	while (!fin.eof()) {
-		bool bin = с & (1 << (7 - count));
-		if (bin) tmp = tmp->right;						//при 1 смещаемся вправо
-		else tmp = tmp->left;							//при нуле - влево
+	char s, tmp2;
+	while (fin.get(s)) {
+		for (int count = 0; count < 8 && len>0; count++) {
+			tmp2 = s & (1 << (7 - count));
+			if (tmp2) {
+				tmp = tmp->right;
+			}
+			else if (!tmp2) {
+				tmp = tmp->left;
+			}
 
-		if (tmp->left == NULL && tmp->right == NULL) {	//если дошли до конца, то выписываем 
-			fout << tmp->s;								//символ и возвращаемся в начало листа
-			tmp = pudgers;
-		}
-		count++;
-
-		if (count == 8) {
-			count = 0;
-			fin >> с;
+			if ((tmp->left == NULL) && (tmp->right == NULL)) {
+				fout << (tmp->s);
+				len--;
+				tmp = pudgers;
+			}
 		}
 	}
+	fin.close();
+	fout.close();
 
 	return 0;
 }

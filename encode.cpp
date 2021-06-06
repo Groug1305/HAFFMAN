@@ -129,6 +129,40 @@ void CreateTable(Uzel* T) {
 }
 
 
+
+///////////////////////////////////////
+void PrintVector(vector<bool>code) {
+	for (auto it = code.begin(); it != code.end(); it++) {
+		cout << *it;
+	}
+	cout << endl;
+}
+
+void PrintTable() {
+	for (auto it = table.begin(); it != table.end(); it++)
+	{
+		cout << it->first << " - ";
+		PrintVector(it->second);
+	}
+}
+
+
+void PrintFile(const char* PATH) {
+	ifstream fin(PATH);
+	char s;
+	while (fin >> s) {
+		for (int i = 0; i < 8; i++) {
+			int b = (s & (1 << (7 - i))) >> (7 - i);
+			cout << b;
+		}
+	}
+	fin.close();
+}
+///////////////////////////////////////
+
+
+
+
 int main() {
 	ifstream fin("test.txt", ios::binary);
 	if (!fin.is_open()) {
@@ -149,7 +183,12 @@ int main() {
 	jija.Print();
 	CreateTable(pudgers);					//после чего приступаем к созданию таблицы
 
+	/*cout << "SOME SERIOUS SHIT" << endl;
+	cout << "Table:" << endl;
+	PrintTable();*/
+
 	int k = table.size();
+	//cout << k;
 	fout.write((char*)&k, sizeof(k));										//записываем количество символов элементов
 	for (auto it = jija.Jija.begin(); it != jija.Jija.end(); it++){
 		fout.write((char*)&it->first, sizeof(it->first));					//пишем символ
