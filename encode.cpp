@@ -59,19 +59,19 @@ public:
 			Jija[c]++;
 		}
 		file.clear();
-		file.seekg(0); //возвращаем указатель в начало файла
+		file.seekg(0); //ГўГ®Г§ГўГ°Г Г№Г ГҐГ¬ ГіГЄГ Г§Г ГІГҐГ«Гј Гў Г­Г Г·Г Г«Г® ГґГ Г©Г«Г 
 	}
 
 	int HeadRead(ifstream& file) {
-		unsigned long long len = 0;					//длина общего текста, не считая (собаки) головы
+		unsigned long long len = 0;					//Г¤Г«ГЁГ­Г  Г®ГЎГ№ГҐГЈГ® ГІГҐГЄГ±ГІГ , Г­ГҐ Г±Г·ГЁГІГ Гї (Г±Г®ГЎГ ГЄГЁ) ГЈГ®Г«Г®ГўГ»
 		int key, q;
 		char s;
 
 		file.read((char*)&q, sizeof(q));
 		for (int i = 0; i < q; i++) {
-			file.read((char*)&s, sizeof(s));		//считываем символ
-			file.read((char*)&key, sizeof(key));	//считываем его значение
-			Jija[s] = key;							//помещаем ключ в мапу
+			file.read((char*)&s, sizeof(s));		//Г±Г·ГЁГІГ»ГўГ ГҐГ¬ Г±ГЁГ¬ГўГ®Г«
+			file.read((char*)&key, sizeof(key));	//Г±Г·ГЁГІГ»ГўГ ГҐГ¬ ГҐГЈГ® Г§Г­Г Г·ГҐГ­ГЁГҐ
+			Jija[s] = key;							//ГЇГ®Г¬ГҐГ№Г ГҐГ¬ ГЄГ«ГѕГ· Гў Г¬Г ГЇГі
 			len += key;
 		}
 
@@ -81,27 +81,27 @@ public:
 	Uzel* CreateList() {
 		list<Uzel*> List;
 		for (auto it = Jija.begin(); it != Jija.end(); it++) {
-			Uzel* p = new Uzel(it->first, it->second);			//создаем узлы и засовываем в конец листа
+			Uzel* p = new Uzel(it->first, it->second);			//Г±Г®Г§Г¤Г ГҐГ¬ ГіГ§Г«Г» ГЁ Г§Г Г±Г®ГўГ»ГўГ ГҐГ¬ Гў ГЄГ®Г­ГҐГ¶ Г«ГЁГ±ГІГ 
 			List.push_back(p);
 		}
 		while (List.size() != 1) {
-			List.sort(compare);													//сортируем по размеру key
+			List.sort(compare);													//Г±Г®Г°ГІГЁГ°ГіГҐГ¬ ГЇГ® Г°Г Г§Г¬ГҐГ°Гі key
 
-			Uzel* right_from_list = List.front();								//берем первый как правый, убираем из листа
+			Uzel* right_from_list = List.front();								//ГЎГҐГ°ГҐГ¬ ГЇГҐГ°ГўГ»Г© ГЄГ ГЄ ГЇГ°Г ГўГ»Г©, ГіГЎГЁГ°Г ГҐГ¬ ГЁГ§ Г«ГЁГ±ГІГ 
 			List.pop_front();
 
-			Uzel* left_from_list = List.front();								//берем второй как левый, убираем из листа
+			Uzel* left_from_list = List.front();								//ГЎГҐГ°ГҐГ¬ ГўГІГ®Г°Г®Г© ГЄГ ГЄ Г«ГҐГўГ»Г©, ГіГЎГЁГ°Г ГҐГ¬ ГЁГ§ Г«ГЁГ±ГІГ 
 			List.pop_front();
 
-			Uzel* p = new Uzel(left_from_list, right_from_list);				//создаем узел из левого и правого и пушим в конец
+			Uzel* p = new Uzel(left_from_list, right_from_list);				//Г±Г®Г§Г¤Г ГҐГ¬ ГіГ§ГҐГ« ГЁГ§ Г«ГҐГўГ®ГЈГ® ГЁ ГЇГ°Г ГўГ®ГЈГ® ГЁ ГЇГіГёГЁГ¬ Гў ГЄГ®Г­ГҐГ¶
 			List.push_back(p);
 		}
-		return List.front();													//возращаем
+		return List.front();													//ГўГ®Г§Г°Г Г№Г ГҐГ¬
 	}
 
 	void Print() {
 		for (auto it = Jija.begin(); it != Jija.end(); it++) {
-			cout << it->first << ": " << it->second << endl;					//печатается структура вида " *символ_нейм*: *его_число*"
+			cout << it->first << ": " << it->second << endl;					//ГЇГҐГ·Г ГІГ ГҐГІГ±Гї Г±ГІГ°ГіГЄГІГіГ°Г  ГўГЁГ¤Г  " *Г±ГЁГ¬ГўГ®Г«_Г­ГҐГ©Г¬*: *ГҐГЈГ®_Г·ГЁГ±Г«Г®*"
 		}
 	}
 
@@ -115,14 +115,14 @@ map<char, vector<bool>> table;
 
 void CreateTable(Uzel* T) {
 	if (T->left) {
-		bincode.push_back(0);							//налево пушим ноль
+		bincode.push_back(0);							//Г­Г Г«ГҐГўГ® ГЇГіГёГЁГ¬ Г­Г®Г«Гј
 		CreateTable(T->left);
 	}
 	if (T->right) {
-		bincode.push_back(1);							//направо пушим единицу
+		bincode.push_back(1);							//Г­Г ГЇГ°Г ГўГ® ГЇГіГёГЁГ¬ ГҐГ¤ГЁГ­ГЁГ¶Гі
 		CreateTable(T->right);
 	}
-	if (((T->right) == NULL) && ((T->left) == NULL)) {	//в конце записываем в мапу символ и его код
+	if (((T->right) == NULL) && ((T->left) == NULL)) {	//Гў ГЄГ®Г­Г¶ГҐ Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Гў Г¬Г ГЇГі Г±ГЁГ¬ГўГ®Г« ГЁ ГҐГЈГ® ГЄГ®Г¤
 		table[T->s] = bincode;
 	}
 	if (!bincode.empty()) bincode.pop_back();
@@ -178,32 +178,28 @@ int main() {
 
 	MapKeys jija;
 
-	jija.CreateMap(fin);					//создаем мапу
-	Uzel* pudgers = jija.CreateList();		//создаем массив имени пуджа
+	jija.CreateMap(fin);					//Г±Г®Г§Г¤Г ГҐГ¬ Г¬Г ГЇГі
+	Uzel* pudgers = jija.CreateList();		//Г±Г®Г§Г¤Г ГҐГ¬ Г¬Г Г±Г±ГЁГў ГЁГ¬ГҐГ­ГЁ ГЇГіГ¤Г¦Г 
 	jija.Print();
-	CreateTable(pudgers);					//после чего приступаем к созданию таблицы
-
-	/*cout << "SOME SERIOUS SHIT" << endl;
-	cout << "Table:" << endl;
-	PrintTable();*/
+	CreateTable(pudgers);					//ГЇГ®Г±Г«ГҐ Г·ГҐГЈГ® ГЇГ°ГЁГ±ГІГіГЇГ ГҐГ¬ ГЄ Г±Г®Г§Г¤Г Г­ГЁГѕ ГІГ ГЎГ«ГЁГ¶Г»
 
 	int k = table.size();
 	//cout << k;
-	fout.write((char*)&k, sizeof(k));										//записываем количество символов элементов
+	fout.write((char*)&k, sizeof(k));										//Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г±ГЁГ¬ГўГ®Г«Г®Гў ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў
 	for (auto it = jija.Jija.begin(); it != jija.Jija.end(); it++){
-		fout.write((char*)&it->first, sizeof(it->first));					//пишем символ
-		fout.write((char*)&it->second, sizeof(it->second));					//пишем количество
+		fout.write((char*)&it->first, sizeof(it->first));					//ГЇГЁГёГҐГ¬ Г±ГЁГ¬ГўГ®Г«
+		fout.write((char*)&it->second, sizeof(it->second));					//ГЇГЁГёГҐГ¬ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ®
 	}
 
 	char tmp = 0;
 	int count = 0;
-	while (!fin.eof()) {								//пока не конец файла
-		char c = fin.get();								//берем символ и его код
+	while (!fin.eof()) {								//ГЇГ®ГЄГ  Г­ГҐ ГЄГ®Г­ГҐГ¶ ГґГ Г©Г«Г 
+		char c = fin.get();								//ГЎГҐГ°ГҐГ¬ Г±ГЁГ¬ГўГ®Г« ГЁ ГҐГЈГ® ГЄГ®Г¤
 		vector<bool> tmp2 = table[c];
-		for (int i = 0; i < tmp2.size(); i++) {			//по коду символа
+		for (int i = 0; i < tmp2.size(); i++) {			//ГЇГ® ГЄГ®Г¤Гі Г±ГЁГ¬ГўГ®Г«Г 
 			tmp = tmp | (tmp2[i] << (7 - count));
 			count++;
-			if (count == 8) {							//как только есть 8 битов - записываем в fout
+			if (count == 8) {							//ГЄГ ГЄ ГІГ®Г«ГјГЄГ® ГҐГ±ГІГј 8 ГЎГЁГІГ®Гў - Г§Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Гў fout
 				count = 0;
 				fout << tmp;
 				tmp = 0;
